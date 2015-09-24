@@ -19,6 +19,8 @@
   "dependencies": {
     "Buffer": "0.0.0",
     "bitcoinjs-lib": "^1.5.8",
-    "bitcore-mnemonic": "^0.13.2"
+    "bitcore": "^0.13.3",
+    "bitcore-mnemonic": "^0.13.2",
+    "crypto-browserify": "^3.9.14"
   }
 }
