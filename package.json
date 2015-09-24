@@ -1,0 +1,24 @@
+{
+  "name": "bitcoin-js-benkyokai",
+  "version": "0.0.1",
+  "description": "勉強会で利用するためのライブラリ。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/junderw/bitcoin-js-benkyokai.git"
+  },
+  "author": "Jonathan Underwood <junderwood@bitcoinbank.co.jp> (https://bitcoinbank.co.jp/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/junderw/bitcoin-js-benkyokai/issues"
+  },
+  "homepage": "https://github.com/junderw/bitcoin-js-benkyokai",
+  "dependencies": {
+    "Buffer": "0.0.0",
+    "bitcoinjs-lib": "^1.5.8",
+    "bitcore-mnemonic": "^0.13.2"
+  }
+}
