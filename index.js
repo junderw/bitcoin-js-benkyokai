@@ -3,6 +3,7 @@
 'use strict';
 
 var Bitcoin = require('bitcoinjs-lib');
+Bitcoin._ = require('./node_modules/bitcore-mnemonic/node_modules/bitcore/node_modules/lodash')._;
 Bitcoin.HD = require('./node_modules/bitcore-mnemonic/node_modules/bitcore').HDPrivateKey
 Bitcoin.Mnemonic = require('bitcore-mnemonic');
 Bitcoin.Buffer = require('Buffer');
