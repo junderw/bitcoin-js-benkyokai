@@ -9,6 +9,7 @@
 ## ブラウザでの動作確認
 
 `npm install -g browserify`
+
 `browserify -r bitcoin-js-benkyokai -s bitcoin -o bitcoin.js`
 
 フォルダパスに出来上がる「bitcoin.js」を`<script>`タグの中で読み込めば、下記のオブジェクトが使えます。
@@ -51,11 +52,9 @@ undefined
 'L2gQNC4jefQkT65mgDWE3ciDtEaDUMiUviYTk3iuWhxJLEW1SrRn'
 > m.phrase
 'ちょさくけん　たたかう　くかん　おいつく　とおす　したうけ　しまる　さんいん　きおち　らくご　さいてき　せんさい'
-> var enc = bitcoin.encrypt(m.phrase, "password")
-undefined
-> enc
+> localStorage.myWallet = bitcoin.encrypt(m.phrase, "password")
 'eeFtfckMiOI5RQLR/l00jn7g6hwEDIBM/AEdjuEWFn6ofEWXpWdepYFAGVlEBVJT/CbaM529cmsqAiWbkt4Y7/SJf+xNfI+sFlJiIDbmMRpOFmL7J582r4TTjpDCDjw0IoTx7nwl6+NxFdMSx3XALjmKCuaHA02tRPt2ofcbvHoqdTU9VtlpIGFUf6HmwwfsaBMlDn2T9Oqufoa92i6uQjmIljeYR8eS0oZV'
-> bitcoin.decrypt(enc, "password")
+> bitcoin.decrypt(localStorage.myWallet, "password")
 'ちょさくけん　たたかう　くかん　おいつく　とおす　したうけ　しまる　さんいん　きおち　らくご　さいてき　せんさい'
 ```
 
