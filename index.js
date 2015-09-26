@@ -3,16 +3,14 @@
 'use strict';
 
 var Bitcoin = require('bitcoinjs-lib');
-Bitcoin._ = require('bitcore-mnemonic/node_modules/bitcore/node_modules/lodash')._;
-Bitcoin.HD = require('bitcore-mnemonic/node_modules/bitcore').HDPrivateKey
 Bitcoin.Mnemonic = require('bitcore-mnemonic');
 Bitcoin.Buffer = require('Buffer');
-Bitcoin.Crypto = require('crypto-browserify');
+Bitcoin.BCrypto = require('crypto-browserify');
 
 Bitcoin.encrypt = function (txt, passwd, salt, iterations) {
   salt = salt || "testsalt";
   iterations = iterations || 8192;
-  var cipher = Bitcoin.Crypto.createCipher('aes-256-ctr',Bitcoin.Crypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
+  var cipher = Bitcoin.BCrypto.createCipher('aes-256-ctr',Bitcoin.BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   var result = cipher.update(txt, 'utf8', 'base64')
   result += cipher.final('base64')
   cipher = null;
@@ -25,7 +23,7 @@ Bitcoin.encrypt = function (txt, passwd, salt, iterations) {
 Bitcoin.decrypt = function (enc, passwd, salt, iterations) {
   salt = salt || "testsalt";
   iterations = iterations || 8192;
-  var decipher = Bitcoin.Crypto.createDecipher('aes-256-ctr',Bitcoin.Crypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
+  var decipher = Bitcoin.BCrypto.createDecipher('aes-256-ctr',Bitcoin.BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   try {
     var result = decipher.update(enc, 'base64', 'utf8')
     result += decipher.final('utf8')
@@ -39,25 +37,27 @@ Bitcoin.decrypt = function (enc, passwd, salt, iterations) {
   return result;
 };
 
-var makeAccount = function (account, pathHead, self) {
+var makeAccount = function (account, pathHead, mnemonic) {
   account = parseInt(account) || 0;
   if (typeof account !== "number" || account < 0) return null;
-  return self.toHDPrivateKey().derive(pathHead + account + "'");
+  return mnemonic.toHDPrivateKey().derive(pathHead + account + "'");
 };
 
-Bitcoin.Mnemonic.prototype.toBIP32 = function (account) {
-  return makeAccount(account, "m/", this);
+Bitcoin.toBIP32path = function (account, mnemonic) {
+  return makeAccount(account, "m/", mnemonic);
 };
 
-Bitcoin.Mnemonic.prototype.toBIP44 = function (account) {
-  return makeAccount(account, "m/44'/0'/", this);
+Bitcoin.toBIP44path = function (account, mnemonic) {
+  return makeAccount(account, "m/44'/0'/", mnemonic);
 };
 
-Bitcoin.HD.prototype.getKey = function (i, j) {
+Bitcoin.HDGetKey = function (i, HDkey, j) {
   if (i === null || typeof i !== "number" || i < 0) return null;
+  if (j && parseInt(j) != 1 && parseInt(j) != 0) return null;
+  i = parseInt(i);
   j = parseInt(j) || 0;
   if (typeof j !== "number" || j < 0) return null;
-  return Bitcoin.ECKey.fromWIF(this.derive("m/" + j + "/" + i).privateKey.toWIF());
+  return Bitcoin.ECKey.fromWIF(HDkey.derive("m/" + j + "/" + i).privateKey.toWIF());
 };
 
 module.exports = Bitcoin;

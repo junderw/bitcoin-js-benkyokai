@@ -19,7 +19,7 @@
 bitcoin          // bitcoinjs-libのオブジェクト
 bitcoin.Mnemonic // bitcore-mnemonicのニーモニック復元フレーズ
 bitcoin.Buffer   // nodejsのBufferオブジェクト
-bitcoin.Crypto   // crypto-browserifyという、nodejsネイティブのCryptoをbrowserifyに最適化したもの
+bitcoin.BCrypto  // crypto-browserifyという、nodejsネイティブのCryptoをbrowserifyに最適化したもの
 
 // 関数
 /**
@@ -30,6 +30,7 @@ bitcoin.Crypto   // crypto-browserifyという、nodejsネイティブのCrypto�
  * @returns {String} 暗号化されたテキスト
  */
 bitcoin.encrypt = function (txt, passwd, salt, iterations)
+
 /**
  * @param {String} enc - 暗号化データ
  * @param {String} passwd - 複合化用のパスワード
@@ -39,12 +40,37 @@ bitcoin.encrypt = function (txt, passwd, salt, iterations)
  */
 bitcoin.decrypt = function (enc, passwd, salt, iterations)
 
+/**
+ * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
+ * @param {Object} mnemonic - bitcoin.Mnemonic ニーモニックのオブジェクトインスタンス
+ * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/{account}'] のパスの拡張秘密鍵を
+ *                   bitcore.HDPrivateKey のオブジェクトインスタンスとして返す
+ */
+bitcoin.toBIP32path = function (account, mnemonic)
+
+/**
+ * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
+ * @param {Object} mnemonic - bitcoin.Mnemonic ニーモニックのオブジェクトインスタンス
+ * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/44'/0'/{account}'] のパスの拡張秘密鍵を
+ *                   bitcore.HDPrivateKey のオブジェクトインスタンスとして返す
+ */
+bitcoin.toBIP44path = function (account, mnemonic)
+
+/**
+ * @param {Number} i - 0から数える鍵の索引
+ * @param {Object} HDkey - bitcore.HDPrivateKey のオブジェクトインスタンス
+ * @param {Number} [j] - 0 = 受取用; 1 = お釣り用 (無い場合は受取用)
+ * @returns {Object} HDkeyをnとし、[n/j/i] のパスから派生した秘密鍵を
+ *                   bitcoin.ECKey のオブジェクトインスタンスとして返す
+ */
+bitcoin.HDGetKey = function (i, HDkey, j)
+
 // 使用例
 > var m = bitcoin.Mnemonic(bitcoin.Mnemonic.Words.JAPANESE)
 undefined
-> var HD = m.toBIP44(2)
+> var HD = bitcoin.toBIP44path(2, m)
 undefined
-> var key = HD.getKey(0)
+> var key = bitcoin.HDGetKey(0, HD)
 undefined
 > key.pub.getAddress().toString()
 '1MCSPLE4UGQVwL8sgdyxUrp1cZqE9biHTL'
