@@ -18,7 +18,7 @@
   "homepage": "https://github.com/junderw/bitcoin-js-benkyokai",
   "dependencies": {
     "bitcoinjs-lib": "^1.5.8",
-    "bitcore-mnemonic": "^0.13.2",
+    "bitcore-mnemonic": "junderw/bitcore-mnemonic#fix-add-jp",
     "crypto-browserify": "^3.9.14"
   }
 }
