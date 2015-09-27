@@ -41,20 +41,20 @@ bitcoin.encrypt = function (txt, passwd, salt, iterations)
 bitcoin.decrypt = function (enc, passwd, salt, iterations)
 
 /**
- * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
  * @param {Object} mnemonic - bitcoin.Mnemonic ニーモニックのオブジェクトインスタンス
+ * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
  * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/{account}'] のパスの拡張秘密鍵を
  *                   bitcore.HDPrivateKey のオブジェクトインスタンスとして返す
  */
-bitcoin.toBIP32path = function (account, mnemonic)
+bitcoin.toBIP32path = function (mnemonic, account)
 
 /**
- * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
  * @param {Object} mnemonic - bitcoin.Mnemonic ニーモニックのオブジェクトインスタンス
+ * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
  * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/44'/0'/{account}'] のパスの拡張秘密鍵を
  *                   bitcore.HDPrivateKey のオブジェクトインスタンスとして返す
  */
-bitcoin.toBIP44path = function (account, mnemonic)
+bitcoin.toBIP44path = function (mnemonic, account)
 
 /**
  * @param {Number} i - 0から数える鍵の索引
@@ -68,7 +68,7 @@ bitcoin.HDGetKey = function (i, HDkey, j)
 // 使用例
 > var m = bitcoin.Mnemonic(bitcoin.Mnemonic.Words.JAPANESE)
 undefined
-> var HD = bitcoin.toBIP44path(2, m)
+> var HD = bitcoin.toBIP44path(m)
 undefined
 > var key = bitcoin.HDGetKey(0, HD)
 undefined

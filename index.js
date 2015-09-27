@@ -36,18 +36,18 @@ var decrypt = function (enc, passwd, salt, iterations) {
   return result;
 };
 
-var makeAccount = function (account, pathHead, mnemonic) {
+var makeAccount = function (pathHead, mnemonic, account) {
   account = parseInt(account) || 0;
   if (typeof account !== "number" || account < 0) return null;
   return mnemonic.toHDPrivateKey().derive(pathHead + account + "'");
 };
 
-var toBIP32path = function (account, mnemonic) {
-  return makeAccount(account, "m/", mnemonic);
+var toBIP32path = function (mnemonic, account) {
+  return makeAccount("m/", mnemonic, account);
 };
 
-var toBIP44path = function (account, mnemonic) {
-  return makeAccount(account, "m/44'/0'/", mnemonic);
+var toBIP44path = function (mnemonic, account) {
+  return makeAccount("m/44'/0'/", mnemonic, account);
 };
 
 var HDGetKey = function (i, HDkey, j) {
