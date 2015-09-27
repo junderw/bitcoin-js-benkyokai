@@ -1,6 +1,6 @@
 {
   "name": "bitcoin-js-benkyokai",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "勉強会で利用するためのライブラリ。",
   "main": "index.js",
   "scripts": {
