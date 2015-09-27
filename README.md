@@ -16,7 +16,7 @@
 
 ```javascript
 // オブジェクト
-bitcoin          // bitcoinjs-libのオブジェクト
+bitcoin.JS       // bitcoinjs-libのオブジェクト
 bitcoin.Mnemonic // bitcore-mnemonicのニーモニック復元フレーズ
 bitcoin.Buffer   // nodejsのBufferオブジェクト
 bitcoin.BCrypto  // crypto-browserifyという、nodejsネイティブのCryptoをbrowserifyに最適化したもの
@@ -61,7 +61,7 @@ bitcoin.toBIP44path = function (account, mnemonic)
  * @param {Object} HDkey - bitcore.HDPrivateKey のオブジェクトインスタンス
  * @param {Number} [j] - 0 = 受取用; 1 = お釣り用 (無い場合は受取用)
  * @returns {Object} HDkeyをnとし、[n/j/i] のパスから派生した秘密鍵を
- *                   bitcoin.ECKey のオブジェクトインスタンスとして返す
+ *                   bitcoin.JS.ECKey のオブジェクトインスタンスとして返す
  */
 bitcoin.HDGetKey = function (i, HDkey, j)
 
