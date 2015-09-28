@@ -25,8 +25,8 @@ bitcoin.BCrypto  // crypto-browserifyという、nodejsネイティブのCrypto�
 /**
  * @param {String} txt - 平文データ
  * @param {String} passwd - 暗号化用のパスワード
- * @param {String} [salt] - 暗号化用のソルト
- * @param {Number} [iterations] - pbkdf2を通す回数
+ * @param {String} [salt] - 暗号化用のソルト (無い場合："testsalt")
+ * @param {Number} [iterations] - pbkdf2を通す回数 (無い場合：8192)
  * @returns {String} 暗号化されたテキスト
  */
 bitcoin.encrypt = function (txt, passwd, salt, iterations)
@@ -34,8 +34,8 @@ bitcoin.encrypt = function (txt, passwd, salt, iterations)
 /**
  * @param {String} enc - 暗号化データ
  * @param {String} passwd - 複合化用のパスワード
- * @param {String} [salt] - 複合化用のソルト
- * @param {Number} [iterations] - pbkdf2を通す回数
+ * @param {String} [salt] - 複合化用のソルト (無い場合："testsalt")
+ * @param {Number} [iterations] - pbkdf2を通す回数 (無い場合：8192)
  * @returns {String} 平文データ
  */
 bitcoin.decrypt = function (enc, passwd, salt, iterations)
@@ -59,7 +59,7 @@ bitcoin.toBIP44path = function (mnemonic, account)
 /**
  * @param {Number} i - 0から数える鍵の索引
  * @param {Object} HDkey - bitcore.HDPrivateKey のオブジェクトインスタンス
- * @param {Number} [j] - 0 = 受取用; 1 = お釣り用 (無い場合は受取用)
+ * @param {Number} [j] - 0 = 受取用; 1 = お釣り用 (無い場合：0)
  * @returns {Object} HDkeyをnとし、[n/j/i] のパスから派生した秘密鍵を
  *                   bitcoin.JS.ECKey のオブジェクトインスタンスとして返す
  */
