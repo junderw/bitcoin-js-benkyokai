@@ -19,6 +19,7 @@
   "dependencies": {
     "bitcoinjs-lib": "^1.5.8",
     "bitcore-mnemonic": "junderw/bitcore-mnemonic#fix-add-jp",
-    "crypto-browserify": "^3.9.14"
+    "crypto-browserify": "^3.9.14",
+    "unorm": "^1.4.1"
   }
 }

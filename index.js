@@ -5,9 +5,12 @@
 var Bitcoin = require('bitcoinjs-lib');
 var Mnemonic = require('bitcore-mnemonic');
 var BCrypto = require('crypto-browserify');
+var unorm = require('unorm');
 
 var encrypt = function (txt, passwd, salt, iterations) {
   salt = salt || "testsalt";
+  passwd = new Buffer(unorm.nfkd(passwd),'utf8');
+  salt = new Buffer(unorm.nfkd(salt),'utf8');
   iterations = iterations || 8192;
   var cipher = BCrypto.createCipher('aes-256-ctr',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   var result = cipher.update(txt, 'utf8', 'base64')
@@ -21,6 +24,8 @@ var encrypt = function (txt, passwd, salt, iterations) {
 
 var decrypt = function (enc, passwd, salt, iterations) {
   salt = salt || "testsalt";
+  passwd = new Buffer(unorm.nfkd(passwd),'utf8');
+  salt = new Buffer(unorm.nfkd(salt),'utf8');
   iterations = iterations || 8192;
   var decipher = BCrypto.createDecipher('aes-256-ctr',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   try {
