@@ -10,7 +10,7 @@ var encrypt = function (txt, passwd, salt, iterations) {
   passwd = new Buffer(unorm.nfkd(passwd),'utf8');
   salt = new Buffer(unorm.nfkd(salt),'utf8');
   iterations = iterations || 8192;
-  var cipher = BCrypto.createCipher('aes-256-ctr',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
+  var cipher = BCrypto.createCipher('aes-256-cbc',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   var result = cipher.update(txt, 'utf8', 'base64')
   result += cipher.final('base64')
   cipher = null;
@@ -25,7 +25,7 @@ var decrypt = function (enc, passwd, salt, iterations) {
   passwd = new Buffer(unorm.nfkd(passwd),'utf8');
   salt = new Buffer(unorm.nfkd(salt),'utf8');
   iterations = iterations || 8192;
-  var decipher = BCrypto.createDecipher('aes-256-ctr',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
+  var decipher = BCrypto.createDecipher('aes-256-cbc',BCrypto.pbkdf2Sync(passwd, salt, iterations, 32, 'sha256'));
   try {
     var result = decipher.update(enc, 'base64', 'utf8')
     result += decipher.final('utf8')
@@ -44,7 +44,8 @@ var makeAccount = function (pathHead, mnemonic, account) {
   if (typeof account !== "number" || account < 0) return null;
   mnemonic = unorm.nfkd(mnemonic)
   var _wordlist, isValid
-  var foundWordlist = Mnemonic.wordlists.some(function (wordlist) {
+  var foundWordlist = Object.keys(Mnemonic.wordlists).some(function (key) {
+    var wordlist = Mnemonic.wordlists[key]
     var isContained = mnemonic.split(' ').every(function (word) {
       return (wordlist.indexOf(word) > -1)
     })
@@ -78,7 +79,7 @@ var HDGetKey = function (i, HDkey, j) {
   i = parseInt(i);
   j = parseInt(j) || 0;
   if (typeof j !== "number" || j < 0) return null;
-  return HDkey.derivePath(j + '/' + i);
+  return HDkey.derivePath(j + '/' + i).keyPair;
 };
 
 module.exports = {
