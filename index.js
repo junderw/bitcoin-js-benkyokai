@@ -1,9 +1,7 @@
-﻿#!/usr/bin/env node
-
 'use strict';
 
 var Bitcoin = require('bitcoinjs-lib');
-var Mnemonic = require('bitcore-mnemonic');
+var Mnemonic = require('bip39')
 var BCrypto = require('crypto-browserify');
 var unorm = require('unorm');
 
@@ -44,7 +42,26 @@ var decrypt = function (enc, passwd, salt, iterations) {
 var makeAccount = function (pathHead, mnemonic, account) {
   account = parseInt(account) || 0;
   if (typeof account !== "number" || account < 0) return null;
-  return mnemonic.toHDPrivateKey().derive(pathHead + account + "'");
+  mnemonic = unorm.nfkd(mnemonic)
+  var _wordlist, isValid
+  var foundWordlist = Mnemonic.wordlists.some(function (wordlist) {
+    var isContained = mnemonic.split(' ').every(function (word) {
+      return (wordlist.indexOf(word) > -1)
+    })
+    if (isContained) {
+      _wordlist = wordlist
+    }
+    return isContained
+  })
+  if (foundWordlist) {
+    isValid = Mnemonic.validateMnemonic(mnemonic, _wordlist)
+  }
+  if (!isValid || !foundWordlist) {
+    console.warn('Could not verify checksum. Be careful.')
+  }
+  var seed = Mnemonic.mnemonicToSeed(mnemonic)
+  var HDNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+  return HDNode.derivePath(pathHead + account + "'");
 };
 
 var toBIP32path = function (mnemonic, account) {
@@ -61,7 +78,7 @@ var HDGetKey = function (i, HDkey, j) {
   i = parseInt(i);
   j = parseInt(j) || 0;
   if (typeof j !== "number" || j < 0) return null;
-  return Bitcoin.ECKey.fromWIF(HDkey.derive("m/" + j + "/" + i).privateKey.toWIF());
+  return HDkey.derivePath(j + '/' + i);
 };
 
 module.exports = {
