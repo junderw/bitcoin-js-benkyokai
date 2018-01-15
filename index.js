@@ -39,8 +39,9 @@ var decrypt = function (enc, passwd, salt, iterations) {
   return result;
 };
 
-var makeAccount = function (pathHead, mnemonic, account) {
+var makeAccount = function (pathHead, mnemonic, account, network) {
   account = parseInt(account) || 0;
+  network = network || Bitcoin.networks.testnet
   if (typeof account !== "number" || account < 0) return null;
   mnemonic = unorm.nfkd(mnemonic)
   var _wordlist, isValid
@@ -61,16 +62,16 @@ var makeAccount = function (pathHead, mnemonic, account) {
     console.warn('Could not verify checksum. Be careful.')
   }
   var seed = Mnemonic.mnemonicToSeed(mnemonic)
-  var HDNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+  var HDNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
   return HDNode.derivePath(pathHead + account + "'");
 };
 
-var toBIP32path = function (mnemonic, account) {
-  return makeAccount("m/", mnemonic, account);
+var toBIP32path = function (mnemonic, account, network) {
+  return makeAccount("m/", mnemonic, account, network);
 };
 
-var toBIP44path = function (mnemonic, account) {
-  return makeAccount("m/44'/0'/", mnemonic, account);
+var toBIP44path = function (mnemonic, account, network) {
+  return makeAccount("m/44'/0'/", mnemonic, account, network);
 };
 
 var HDGetKey = function (i, HDkey, j) {
