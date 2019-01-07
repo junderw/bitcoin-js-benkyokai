@@ -69,7 +69,7 @@ bitcoin.HDGetKey = function (i, HDkey, j) {}
 > var m = bitcoin.Mnemonic.generateMnemonic(null, null, bitcoin.Mnemonic.wordlists.japanese)
 > var HD = bitcoin.toBIP44path(m)
 > var key = bitcoin.HDGetKey(0, HD)
-> key.getAddress()
+> bitcoin.getAddress(key)
 '1BgF7dxrXWwF5WZHhfCGfQ4m5MfQkUWk6D'
 > key.toWIF()
 'L4pLC1xE2W2LHCxhQeYXGyApFNjzqiAHP37kqFsbu7xQyHYXfaP8'
