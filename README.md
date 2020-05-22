@@ -43,14 +43,6 @@ bitcoin.decrypt = function (enc, passwd, salt, iterations) {}
 /**
  * @param {Object} mnemonic - ニーモニックの文字列
  * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
- * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/{account}'] のパスの拡張秘密鍵を
- *                   bitcoin.JS.HDNode のオブジェクトインスタンスとして返す
- */
-bitcoin.toBIP32path = function (mnemonic, account) {}
-
-/**
- * @param {Object} mnemonic - ニーモニックの文字列
- * @param {Number} [account] - 0から数えるアカウントの番号 (無い場合：0)
  * @returns {Object} ニーモニックをマスタ秘密鍵にし、[m/44'/0'/{account}'] のパスの拡張秘密鍵を
  *                   bitcore.HDPrivateKey のオブジェクトインスタンスとして返す
  */

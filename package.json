@@ -1,10 +1,20 @@
 {
   "name": "bitcoin-js-benkyokai",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "勉強会で利用するためのライブラリ。",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p ./tsconfig.json",
+    "format": "npm run prettier -- --write",
+    "format:check": "npm run prettier -- --check",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "prepublishOnly": "npm run format:check && npm run lint && npm run build",
+    "prettier": "prettier --single-quote --trailing-comma all src/index.ts",
+    "test": "npm run format:check && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -17,10 +27,16 @@
   },
   "homepage": "https://github.com/junderw/bitcoin-js-benkyokai",
   "dependencies": {
-    "bip32": "^1.0.2",
-    "bip39": "^2.5.0",
-    "bitcoinjs-lib": "^4.0.2",
+    "bip39": "^3.0.2",
+    "bitcoinjs-lib": "^5.1.8",
     "crypto-browserify": "^3.12.0",
-    "unorm": "^1.4.1"
+    "unorm": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/unorm": "^1.3.28",
+    "prettier": "^2.0.5",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
   }
 }
